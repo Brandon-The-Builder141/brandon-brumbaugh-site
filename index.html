@@ -81,12 +81,13 @@ a{color:inherit;}
 }
 .hero-inner{position:relative;z-index:2;max-width:1180px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:1.6rem;}
 .hero-status{align-self:flex-start;}
-.hero-name{font-size:clamp(2.6rem,7.2vw,5.4rem);line-height:.98;}
-.hero-role{
-  font-family:var(--font-mono);font-size:.85rem;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);
+.hero-name{font-size:clamp(1.5rem,3.4vw,2.1rem);line-height:1;font-family:var(--font-mono);font-weight:500;letter-spacing:.04em;color:var(--text-dim);text-transform:uppercase;}
+.hero-line{font-size:clamp(2.6rem,7.4vw,5.2rem);line-height:.98;margin-top:.3rem;}
+.hero-cycle{
+  font-family:var(--font-display);font-weight:600;font-size:clamp(2.6rem,7.4vw,5.2rem);line-height:.98;
+  color:var(--blue);min-height:1.1em;
 }
-.hero-role span{color:var(--text-faint);}
-.hero-statement{max-width:640px;font-size:1.15rem;color:var(--text-dim);}
+.hero-statement{max-width:640px;font-size:1.15rem;color:var(--text-dim);margin-top:.6rem;}
 .hero-ctas{display:flex;flex-wrap:wrap;gap:.9rem;margin-top:.5rem;}
 .btn{
   font-family:var(--font-mono);font-size:.78rem;letter-spacing:.04em;text-decoration:none;
@@ -197,7 +198,9 @@ a{color:inherit;}
 .pcard p{font-size:.82rem;}
 .status-pill.active{background:rgba(109,184,255,.14);color:var(--blue);}
 .status-pill.building{background:rgba(231,165,82,.14);color:var(--amber);}
-.status-pill.development{background:rgba(160,140,255,.14);color:var(--violet);}
+.status-pill.development,.status-pill.prototype{background:rgba(160,140,255,.14);color:var(--violet);}
+.status-pill.experiment{background:rgba(120,200,170,.14);color:#78c8aa;}
+.status-pill.concept{background:rgba(255,255,255,.06);color:var(--text-dim);}
 
 /* JOURNEY */
 #journey{background:linear-gradient(180deg, var(--bg), #0d0f11 40%, var(--bg));}
@@ -217,7 +220,14 @@ a{color:inherit;}
   font-family:var(--font-mono);font-size:.78rem;color:var(--text-dim);
 }
 
-/* LAB */
+/* WORKSHOP */
+.workshop-filters{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1.6rem;}
+.wfilter{
+  font-family:var(--font-mono);font-size:.72rem;letter-spacing:.05em;padding:.55rem 1.05rem;border-radius:999px;
+  border:1px solid var(--line);background:none;color:var(--text-dim);cursor:pointer;transition:.2s;
+}
+.wfilter.sel,.wfilter:hover{border-color:var(--blue);color:var(--blue);}
+.lab-card[hidden]{display:none;}
 .lab-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1.1rem;}
 .lab-card{
   background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:1.4rem;
@@ -353,7 +363,7 @@ footer{
       <li><a href="#hero">Home</a></li>
       <li><a href="#journey">Story</a></li>
       <li><a href="#constellation">Projects</a></li>
-      <li><a href="#built">Work</a></li>
+      <li><a href="#workshop">Workshop</a></li>
       <li><a href="#media">Media</a></li>
       <li><a href="#now">Now</a></li>
       <li><a href="#connect">Connect</a></li>
@@ -366,13 +376,13 @@ footer{
   <canvas id="hero-canvas"></canvas>
   <div class="hero-inner">
     <div class="eyebrow hero-status"><span class="dot"></span>CURRENT STATUS — BUILDING</div>
-    <h1 class="hero-name">BRANDON<br>BRUMBAUGH</h1>
-    <div class="hero-role">Builder <span>·</span> Creator <span>·</span> Entrepreneur <span>·</span> Speaker</div>
-    <p class="hero-statement">I build things, chase ideas, take the long way around, and try to leave people better than I found them.</p>
+    <h1 class="hero-name">BRANDON BRUMBAUGH</h1>
+    <h2 class="hero-line">I BUILD THINGS.</h2>
+    <div class="hero-cycle" id="hero-cycle" aria-hidden="true">HOUSES.</div>
+    <p class="hero-statement">Sometimes the material is wood and steel. Sometimes it's code. It's rarely a straight line — I take the long way around, and I'm still building the story.</p>
     <div class="hero-ctas">
-      <a href="#constellation" class="btn btn-primary">Explore My World</a>
-      <a href="#now" class="btn btn-ghost">What I'm Building</a>
-      <a href="#connect" class="btn btn-ghost">Work With Me</a>
+      <a href="#constellation" class="btn btn-primary">Enter the Workshop</a>
+      <a href="#now" class="btn btn-ghost">See What I'm Building</a>
     </div>
   </div>
   <div class="scroll-hint">Scroll to go deeper</div>
@@ -384,23 +394,26 @@ footer{
       <div class="profile-photo">BB</div>
       <div class="profile-tags">
         <span class="tag">📍 On site &amp; online</span>
-        <span class="tag">General Contractor</span>
-        <span class="tag">Creator</span>
-        <span class="tag">AI Experimenter</span>
+        <span class="tag">Construction &amp; Project Management</span>
+        <span class="tag">Builder</span>
+        <span class="tag">AI / Software Experimenter</span>
       </div>
     </div>
     <div>
       <div class="eyebrow"><span class="dot"></span>PROFILE</div>
       <h2 style="margin-top:.8rem;font-size:2rem;">Brandon Brumbaugh</h2>
-      <p style="margin-top:.6rem;max-width:520px;">Builder of physical things and digital things. Contractor by trade, founder by instinct, storyteller because the job site and the terminal both taught me something worth repeating.</p>
+      <p style="margin-top:.6rem;max-width:520px;">I build things. Some are made from wood, steel, and concrete. Some are made from code, models, and ideas. Still figuring out where all of it goes — that's kind of the point.</p>
       <div class="profile-fields">
-        <div class="field"><label>Current obsession</label><div>Teaching an AI to actually remember someone</div></div>
-        <div class="field"><label>Currently building</label><div>Solen — an AI companion</div></div>
-        <div class="field accent"><label>Current goal</label><div>Ship two things I'm proud of before year end</div></div>
-        <div class="field"><label>Currently listening to</label><div>Long-form founder interviews on a loop</div></div>
-        <div class="field"><label>Current thought</label><div>Craftsmanship transfers between trades — the tools just change</div></div>
+        <div class="field"><label>Currently building</label><div>Solen</div></div>
+        <div class="field accent"><label>Current big experiment</label><div>Teaching Solen to actually hold context on a person</div></div>
+        <div class="field"><label>Currently creating</label><div>The Long Way Around</div></div>
+        <div class="field"><label>Day job / craft</label><div>Construction &amp; project management</div></div>
+        <div class="field"><label>Company</label><div>Iron Legion Contracting LLC</div></div>
+        <div class="field"><label>Rabbit hole this week</label><div>Whatever broke my brain most recently — updates when it happens</div></div>
+        <div class="field"><label>Current thought</label><div>Your past explains you. It doesn't own you.</div></div>
         <div class="field"><label>Last updated</label><div style="font-family:var(--font-mono);font-size:.85rem;">Sept 2026</div></div>
       </div>
+      <p style="margin-top:1.2rem;font-family:var(--font-mono);font-size:.8rem;color:var(--text-faint);">Current number of ideas: unreasonable.</p>
     </div>
   </div>
 </section>
@@ -411,9 +424,9 @@ footer{
     <h2>The current chapter, in three parts</h2>
   </div>
   <div class="now-grid reveal">
-    <div class="now-card build"><div class="glow"></div><div class="now-kicker">Building</div><h3>Solen</h3><p>An AI companion platform focused on conversation, memory, planning, tools, and reducing mental load.</p></div>
-    <div class="now-card create"><div class="glow"></div><div class="now-kicker">Creating</div><h3>The Long Way Around</h3><p>A podcast and media project built around conversation, humor, stories, experience, ideas, and perspective.</p></div>
-    <div class="now-card work"><div class="glow"></div><div class="now-kicker">Working</div><h3>Iron Nation Contracting</h3><p>Construction, handyman work, renovation, repair, and physical craftsmanship.</p></div>
+    <div class="now-card build"><div class="glow"></div><div class="now-kicker">Building</div><h3>Solen</h3><p>An AI companion, not another chatbot — built around conversation, personality, persistent memory, planning, and reducing mental load.</p></div>
+    <div class="now-card create"><div class="glow"></div><div class="now-kicker">Creating</div><h3>The Long Way Around</h3><p>A podcast and media project that wanders through life, mistakes, ideas, and technology — and usually finds its way back to the point.</p></div>
+    <div class="now-card work"><div class="glow"></div><div class="now-kicker">Working</div><h3>Iron Legion Contracting LLC</h3><p>Residential and commercial construction, remodeling, estimating, and the hands-on problem-solving that comes with all of it.</p></div>
   </div>
 </section>
 
@@ -421,7 +434,7 @@ footer{
   <div class="section-head reveal">
     <div class="eyebrow"><span class="dot"></span>THINGS I'M BUILDING</div>
     <h2>The project constellation</h2>
-    <p>Four active bodies of work, drifting in the same orbit. Hover a node on desktop — or scroll the list on mobile.</p>
+    <p>Six bodies of work, in different stages, drifting in the same orbit. Hover a node on desktop — or scroll the list on mobile. Not everything here is finished. That's the point.</p>
   </div>
   <div class="constellation-wrap reveal">
     <canvas id="const-canvas"></canvas>
@@ -434,10 +447,12 @@ footer{
     </div>
   </div>
   <div class="project-grid">
-    <div class="pcard"><span class="status-pill active" style="margin-bottom:.5rem;display:inline-block;">Active</span><h4>Solen</h4><div class="cat">AI Companion</div><p>Conversation, memory, and planning built to reduce mental load.</p></div>
-    <div class="pcard"><span class="status-pill building" style="margin-bottom:.5rem;display:inline-block;">Building</span><h4>The Long Way Around</h4><div class="cat">Podcast / Media</div><p>Conversation, humor, and perspective on the winding path.</p></div>
-    <div class="pcard"><span class="status-pill active" style="margin-bottom:.5rem;display:inline-block;">Active</span><h4>Iron Nation Contracting</h4><div class="cat">Construction / Business</div><p>Renovation, repair, and physical craftsmanship.</p></div>
-    <div class="pcard"><span class="status-pill development" style="margin-bottom:.5rem;display:inline-block;">Development</span><h4>AlphaQuote</h4><div class="cat">Software / Estimating</div><p>Faster, sharper estimates for contractors.</p></div>
+    <div class="pcard"><span class="status-pill active" style="margin-bottom:.5rem;display:inline-block;">Active</span><h4>Solen</h4><div class="cat">AI Companion</div><p>Conversation, personality, persistent memory, and planning — built to reduce mental load, not add to it.</p></div>
+    <div class="pcard"><span class="status-pill active" style="margin-bottom:.5rem;display:inline-block;">Active</span><h4>Iron Legion Contracting LLC</h4><div class="cat">Construction / Business</div><p>Residential and commercial construction, remodeling, and estimating.</p></div>
+    <div class="pcard"><span class="status-pill building" style="margin-bottom:.5rem;display:inline-block;">Building</span><h4>The Long Way Around</h4><div class="cat">Podcast / Media</div><p>Conversation that wanders through life, humor, and ideas before it finds the point.</p></div>
+    <div class="pcard"><span class="status-pill prototype" style="margin-bottom:.5rem;display:inline-block;">Prototype</span><h4>AlphaQuote</h4><div class="cat">Software / Estimating</div><p>An estimating concept born from years of bidding real construction jobs.</p></div>
+    <div class="pcard"><span class="status-pill experiment" style="margin-bottom:.5rem;display:inline-block;">Experiment</span><h4>Syntrax</h4><div class="cat">Security / AI</div><p>Exploring AI-assisted threat detection, honeypots, and defensive automation.</p></div>
+    <div class="pcard"><span class="status-pill concept" style="margin-bottom:.5rem;display:inline-block;">Concept</span><h4>RealmRisers</h4><div class="cat">Game</div><p>An early creative/game project — proof the experimentation doesn't stop at utility software.</p></div>
   </div>
 </section>
 
@@ -445,64 +460,69 @@ footer{
   <div class="section-head reveal">
     <div class="eyebrow"><span class="dot"></span>THE LONG WAY AROUND</div>
     <h2>The journey, not the straight line</h2>
-    <p>Life rarely moves in a perfectly straight line. Here's the path, curves included.</p>
+    <p>Life rarely moves in a perfectly straight line. Sometimes you reach the point by taking the long way around. Here's the path, curves included — still being written.</p>
   </div>
   <div class="journey-path">
     <div class="milestone reveal">
-      <div class="year">EARLY YEARS</div>
-      <h3>Learning with my hands</h3>
-      <p>Before any of this had a name, there was a job site, a set of tools, and a willingness to figure things out by doing them wrong first.</p>
+      <div class="year">CHAPTER ONE</div>
+      <h3>Building with my hands</h3>
+      <p>Before any of this had a name, there was a job site, a set of tools, and a willingness to figure things out by doing them wrong first. That's where the instinct to build actually started.</p>
       <div class="lesson">Lesson: craftsmanship is just repeated honesty about your own mistakes.</div>
     </div>
     <div class="milestone reveal">
-      <div class="year">STARTING OUT</div>
-      <h3>Iron Nation Contracting</h3>
-      <p>Turned hands-on skill into a real business — renovations, repairs, and the unglamorous work that actually builds trust.</p>
-      <div class="lesson">Lesson: reputation is built one finished job at a time, not one pitch.</div>
-    </div>
-    <div class="milestone reveal">
-      <div class="year">THE DETOUR</div>
-      <h3>Falling into code</h3>
-      <p>Curiosity about software turned into late nights teaching myself to build. The same instincts from the job site — measure twice, ship once — carried straight over.</p>
+      <div class="year">CHAPTER TWO</div>
+      <h3>Starting to build with code</h3>
+      <p>Curiosity about software, AI, and everything adjacent to it turned into late nights teaching myself to build. The same instincts from the job site — measure twice, ship once — carried straight over.</p>
       <div class="lesson">Lesson: the tools change. The discipline doesn't.</div>
     </div>
     <div class="milestone reveal">
-      <div class="year">RIGHT NOW</div>
-      <h3>Building in both worlds at once</h3>
-      <p>Contracting by day, software and AI experiments by night, a podcast to hold the whole story together. Solen and AlphaQuote are the current proof of the idea.</p>
+      <div class="year">CHAPTER THREE</div>
+      <h3>Too many ideas</h3>
+      <p>Once the door to building digital things opened, it didn't stay open a crack. AI companions, estimating software, security experiments, a game, a podcast — more ideas than any one person can chase at once.</p>
+      <div class="lesson">Lesson: ideas deserve to be tested, not worshiped.</div>
+    </div>
+    <div class="milestone reveal">
+      <div class="year">CHAPTER FOUR</div>
+      <h3>Learning to ship</h3>
+      <p>Running Iron Legion Contracting LLC while experimenting in software meant learning the difference between an idea and a finished thing — and getting more comfortable putting unfinished work in front of people.</p>
+      <div class="lesson">Lesson: build before you brag.</div>
+    </div>
+    <div class="milestone reveal">
+      <div class="year">CHAPTER FIVE</div>
+      <h3>Building something that matters</h3>
+      <p>Solen, The Long Way Around, and the rest of what's in the workshop are the current attempt to turn the habit of building into something that genuinely helps someone else move forward.</p>
+      <div class="lesson">Lesson: success has more value when it lets someone else move forward too.</div>
+    </div>
+    <div class="milestone reveal">
+      <div class="year">NEXT CHAPTER</div>
+      <h3>Still being written</h3>
+      <p>This isn't a retrospective. It's a live record of whatever gets built next — in wood and steel, or in code.</p>
       <div class="lesson">Lesson: you don't need the entire road. You need the next step.</div>
     </div>
   </div>
 </section>
 
-<section class="section" id="lab">
+<section class="section" id="workshop">
   <div class="section-head reveal">
-    <div class="eyebrow"><span class="dot"></span>THE LAB</div>
-    <h2>Experiments, ideas, and unfinished things</h2>
-    <p>Not everything here is a finished product — and it shouldn't pretend to be.</p>
+    <div class="eyebrow"><span class="dot"></span>THE WORKSHOP</div>
+    <h2>Everything I build lives here</h2>
+    <p>Construction, software, media, experiments — it's not four different careers. It's one recurring behavior. Yes, there are unfinished projects in here. Welcome to the workshop.</p>
+  </div>
+  <div class="workshop-filters reveal">
+    <button class="wfilter sel" data-filter="all">All</button>
+    <button class="wfilter" data-filter="physical">Physical</button>
+    <button class="wfilter" data-filter="digital">Digital</button>
+    <button class="wfilter" data-filter="media">Media</button>
+    <button class="wfilter" data-filter="experiments">Experiments</button>
   </div>
   <div class="lab-grid reveal">
-    <div class="lab-card"><span class="lab-status active">Active</span><h4>Solen Memory Engine</h4><p>Long-term memory architecture for a conversational AI companion.</p></div>
-    <div class="lab-card"><span class="lab-status development">Development</span><h4>AlphaQuote</h4><p>Estimating software built for contractors who hate spreadsheets.</p></div>
-    <div class="lab-card"><span class="lab-status experiment">Experiment</span><h4>Voice-to-Estimate</h4><p>Speak a job walkthrough, get a rough estimate back. Rough, but promising.</p></div>
-    <div class="lab-card"><span class="lab-status concept">Concept</span><h4>Field Notes App</h4><p>A lightweight way for crews to log job-site issues on the spot. Idea stage.</p></div>
-    <div class="lab-card"><span class="lab-status shipped">Shipped</span><h4>This Website</h4><p>The living profile you're standing in right now.</p></div>
-    <div class="lab-card"><span class="lab-status archived">Archived</span><h4>First Estimating Spreadsheet</h4><p>The clunky ancestor that eventually became AlphaQuote.</p></div>
-  </div>
-</section>
-
-<section class="section" id="built">
-  <div class="section-head reveal">
-    <div class="eyebrow"><span class="dot"></span>THINGS I'VE ACTUALLY BUILT</div>
-    <h2>Imagined vs. shipped</h2>
-    <p>This is the credibility section — real jobs, real code, real outcomes.</p>
-  </div>
-  <div class="built-list reveal">
-    <div class="built-row"><div class="yr">2024</div><div><h4>Full kitchen renovation, tear-out to finish</h4><div class="tag-sm">Construction</div></div><div class="quote">"Brandon treated our home like it was his own." — Homeowner</div><div class="chip" style="cursor:default;">Shipped</div></div>
-    <div class="built-row"><div class="yr">2024</div><div><h4>AlphaQuote v1 — internal estimating tool</h4><div class="tag-sm">Software</div></div><div class="quote">Cut estimate turnaround from days to hours.</div><div class="chip" style="cursor:default;">Shipped</div></div>
-    <div class="built-row"><div class="yr">2025</div><div><h4>Solen — early companion prototype</h4><div class="tag-sm">Software / AI</div></div><div class="quote">First working memory + planning loop.</div><div class="chip" style="cursor:default;">Shipped</div></div>
-    <div class="built-row"><div class="yr">2025</div><div><h4>Whole-home repair &amp; restoration project</h4><div class="tag-sm">Construction</div></div><div class="quote">"He explained everything before he touched it."</div><div class="chip" style="cursor:default;">Shipped</div></div>
-    <div class="built-row"><div class="yr">2026</div><div><h4>The Long Way Around — pilot episodes</h4><div class="tag-sm">Media</div></div><div class="quote">First three conversations, recorded and edited.</div><div class="chip" style="cursor:default;">Shipped</div></div>
+    <div class="lab-card" data-cat="physical"><span class="lab-status active">Active</span><h4>Iron Legion Contracting LLC</h4><p>Residential and commercial construction, remodeling, and estimating — the day job and the original craft.</p></div>
+    <div class="lab-card" data-cat="digital"><span class="lab-status active">Active / Building</span><h4>Solen</h4><p>An AI companion built around conversation, personality, persistent memory, and planning.</p></div>
+    <div class="lab-card" data-cat="digital experiments"><span class="lab-status experiment">Prototype</span><h4>AlphaQuote</h4><p>An estimating concept for construction, born from years of bidding real jobs by hand.</p></div>
+    <div class="lab-card" data-cat="digital experiments"><span class="lab-status experiment">Experiment</span><h4>Syntrax</h4><p>Exploring AI-assisted threat detection, honeypots, and defensive security automation.</p></div>
+    <div class="lab-card" data-cat="digital experiments"><span class="lab-status concept">Concept</span><h4>RealmRisers</h4><p>An early game project — proof the experimentation doesn't stop at utility software.</p></div>
+    <div class="lab-card" data-cat="media"><span class="lab-status active">Building</span><h4>The Long Way Around</h4><p>A podcast that wanders through life, humor, and ideas before it finds the point.</p></div>
+    <div class="lab-card" data-cat="digital"><span class="lab-status shipped">Shipped</span><h4>This Website</h4><p>The living record you're standing in right now — built to be updated as everything else changes.</p></div>
   </div>
 </section>
 
@@ -513,18 +533,17 @@ footer{
   </div>
   <div class="media-feature reveal">
     <div>
-      <div class="eyebrow"><span class="dot"></span>LATEST EPISODE</div>
-      <h3 style="font-size:1.6rem;margin-top:.7rem;">Building Two Businesses at Once (and Sleeping Occasionally)</h3>
-      <p style="margin-top:.7rem;">A conversation about running a contracting business and a software company in the same season of life — the tradeoffs, the failures, and why neither one is the "real" job.</p>
+      <div class="eyebrow"><span class="dot"></span>IN PRODUCTION</div>
+      <h3 style="font-size:1.6rem;margin-top:.7rem;">A conversation that takes the long way around</h3>
+      <p style="margin-top:.7rem;">Not another generic motivational podcast. The format moves through life, humor, mistakes, ideas, technology, and rabbit holes that seem disconnected — until they connect back to a bigger point. Sometimes you reach the point by taking the long way around.</p>
       <div class="media-links">
         <a class="chip" href="#">▶ YouTube</a>
         <a class="chip" href="#">Spotify</a>
         <a class="chip" href="#">Apple Podcasts</a>
-        <a class="chip" href="#">All Episodes</a>
       </div>
-      <p class="quote-strip">"You don't need the entire road. You need the next step."</p>
+      <p class="quote-strip">"It isn't only about where you've been. It's about where you're going next."</p>
     </div>
-    <div class="media-art">EPISODE ARTWORK</div>
+    <div class="media-art">THE LONG WAY AROUND</div>
   </div>
 </section>
 
@@ -533,16 +552,17 @@ footer{
     <div class="eyebrow"><span class="dot"></span>OFF THE CLOCK</div>
     <h2>The human part</h2>
   </div>
+  <p class="reveal" style="max-width:600px;margin-bottom:1.6rem;">Construction and AI aren't the only things going on. This corner updates whenever something new is worth sharing — music, games, whatever rabbit hole has my attention this week.</p>
   <div class="clock-grid reveal">
-    <div class="clock-card"><label>Reading</label><div>Shop Class as Soulcraft</div></div>
-    <div class="clock-card"><label>Rabbit hole</label><div>Vintage hand-tool restoration videos</div></div>
-    <div class="clock-card"><label>Learning</label><div>Structural framing + LLM agent design, same week</div></div>
-    <div class="clock-card"><label>Quote I keep coming back to</label><div>"Amateurs sit and wait for inspiration."</div></div>
+    <div class="clock-card"><label>Rabbit hole</label><div>Updates whenever a new one shows up</div></div>
+    <div class="clock-card"><label>Currently learning</label><div>Whatever the current project demands</div></div>
+    <div class="clock-card"><label>Games</label><div>Editable — check back</div></div>
+    <div class="clock-card"><label>A thought I keep coming back to</label><div>Help the person behind you.</div></div>
   </div>
   <div class="music-module reveal">
     <button class="music-play" id="music-play">▶</button>
     <div class="music-art"></div>
-    <div class="music-meta"><div class="t">Currently on repeat</div><div class="a">A long-drive playlist, mostly instrumental</div></div>
+    <div class="music-meta"><div class="t">Music module</div><div class="a">Editable field — whatever's on repeat lately</div></div>
   </div>
 </section>
 
@@ -552,11 +572,15 @@ footer{
     <h2>Principles, not posters</h2>
   </div>
   <div class="belief-list reveal">
-    <div class="belief"><span class="num">01</span><p>Your past explains you. It doesn't own you.</p></div>
+    <div class="belief"><span class="num">01</span><p>Your past is context, not destiny.</p></div>
     <div class="belief"><span class="num">02</span><p>Build before you brag.</p></div>
-    <div class="belief"><span class="num">03</span><p>Help the person behind you.</p></div>
-    <div class="belief"><span class="num">04</span><p>You don't need the entire road. You need the next step.</p></div>
-    <div class="belief"><span class="num">05</span><p>Leave people better than you found them.</p></div>
+    <div class="belief"><span class="num">03</span><p>Keep moving — you don't need the entire road, just the next step.</p></div>
+    <div class="belief"><span class="num">04</span><p>Experiment. Ideas deserve to be tested, not worshiped.</p></div>
+    <div class="belief"><span class="num">05</span><p>Help the next person. Success has more value when it lets someone else move forward too.</p></div>
+  </div>
+  <div class="reveal" style="margin-top:3rem;max-width:640px;">
+    <div class="eyebrow"><span class="dot"></span>AN EMERGING DIRECTION</div>
+    <p style="margin-top:.8rem;font-size:.98rem;">Brandon's also been exploring speaking and content around these ideas — for people who feel stuck, alone, or convinced their past mistakes define what's next. Not as an established speaker with a stage résumé, just someone who keeps coming back to one idea: it isn't only about where you've been, it's about where you're going next.</p>
   </div>
 </section>
 
@@ -588,7 +612,7 @@ footer{
 
 <footer>
   <span>© 2026 Brandon Brumbaugh</span>
-  <span>Building in wood and code, one at a time.</span>
+  <span>Some of it's wood and steel. Some of it's code. Still building.</span>
 </footer>
 
 <div id="cmdk-overlay">
@@ -614,13 +638,13 @@ footer{
   var cmds=[
     {t:'Who is Brandon?',go:'#profile'},
     {t:"What's he building?",go:'#now'},
-    {t:'Show me his work',go:'#built'},
+    {t:'Show me his work',go:'#workshop'},
     {t:'Listen to the podcast',go:'#media'},
     {t:'What is he doing right now?',go:'#now'},
     {t:'Work with Brandon',go:'#connect'},
-    {t:'Take me somewhere random',go:'random'}
+    {t:'Take me down a rabbit hole',go:'random'}
   ];
-  var sections=['#hero','#profile','#now','#constellation','#journey','#lab','#built','#media','#clock','#beliefs','#connect'];
+  var sections=['#hero','#profile','#now','#constellation','#journey','#workshop','#media','#clock','#beliefs','#connect'];
   function renderList(filter){
     list.innerHTML='';
     cmds.filter(function(c){return c.t.toLowerCase().indexOf((filter||'').toLowerCase())>-1;}).forEach(function(c){
@@ -653,6 +677,35 @@ footer{
   /* reasons */
   document.querySelectorAll('.reason').forEach(function(r){
     r.onclick=function(){ document.querySelectorAll('.reason').forEach(function(x){x.classList.remove('sel');}); r.classList.add('sel'); };
+  });
+
+  /* hero word cycle */
+  (function(){
+    var el=document.getElementById('hero-cycle');
+    if(!el) return;
+    var words=['HOUSES.','SYSTEMS.','SOFTWARE.','IDEAS.','BUSINESSES.','MYSELF.'];
+    var i=0;
+    el.textContent=words[0];
+    if(reduced) return;
+    setInterval(function(){
+      i=(i+1)%words.length;
+      el.style.opacity=0;
+      setTimeout(function(){ el.textContent=words[i]; el.style.opacity=1; },350);
+    },2200);
+    el.style.transition='opacity .35s ease';
+  })();
+
+  /* workshop filters */
+  document.querySelectorAll('.wfilter').forEach(function(btn){
+    btn.onclick=function(){
+      document.querySelectorAll('.wfilter').forEach(function(b){b.classList.remove('sel');});
+      btn.classList.add('sel');
+      var f=btn.dataset.filter;
+      document.querySelectorAll('.lab-card').forEach(function(card){
+        var cats=(card.dataset.cat||'').split(' ');
+        card.hidden = f!=='all' && cats.indexOf(f)===-1;
+      });
+    };
   });
 
   if(typeof THREE==='undefined') return;
@@ -767,15 +820,26 @@ footer{
     camera.position.set(0,0,9);
 
     var projects=[
-      {name:'SOLEN', cat:'AI Companion', status:'active', desc:'Conversation, memory, planning, tools — reducing mental load.', color:0x6db8ff, pos:[-2.4,1.2,0]},
-      {name:'THE LONG WAY AROUND', cat:'Podcast / Media', status:'building', desc:'Stories, humor, and perspective built around real conversation.', color:0xe7a552, pos:[2.2,1.6,-1]},
-      {name:'IRON NATION CONTRACTING', cat:'Construction / Business', status:'active', desc:'Renovation, repair, and craftsmanship you can stand on.', color:0x6db8ff, pos:[-1.8,-1.4,1]},
-      {name:'ALPHAQUOTE', cat:'Software / Estimating', status:'development', desc:'Faster, sharper estimates for people who hate spreadsheets.', color:0xa08cff, pos:[2.0,-1.2,0.5]}
+      {name:'SOLEN', cat:'AI Companion', status:'active', desc:'Conversation, personality, persistent memory, and planning — built to reduce mental load.', color:0x6db8ff, pos:[-2.6,1.3,0], shape:'organic'},
+      {name:'IRON LEGION CONTRACTING LLC', cat:'Construction / Business', status:'active', desc:'Residential and commercial construction, remodeling, and estimating.', color:0xe7a552, pos:[2.6,1.1,-0.6], shape:'structural'},
+      {name:'THE LONG WAY AROUND', cat:'Podcast / Media', status:'building', desc:'A conversation that wanders through life, humor, and ideas before it finds the point.', color:0xe7a552, pos:[0,2.4,0.8], shape:'orbit'},
+      {name:'ALPHAQUOTE', cat:'Software / Estimating', status:'prototype', desc:'An estimating concept for construction, connecting the job site to the code.', color:0xa08cff, pos:[-2.2,-1.5,0.6], shape:'blueprint'},
+      {name:'SYNTRAX', cat:'Security / AI', status:'experiment', desc:'Exploring AI-assisted threat detection, honeypots, and defensive automation.', color:0x78c8aa, pos:[2.2,-1.6,0.4], shape:'grid'},
+      {name:'REALMRISERS', cat:'Game', status:'concept', desc:'An early game project — proof the experimentation extends into interactive worlds.', color:0xa08cff, pos:[0,-2.6,-0.8], shape:'organic'}
     ];
+
+    function makeGeometry(shape){
+      if(shape==='organic') return new THREE.SphereGeometry(0.42, 10, 10);
+      if(shape==='structural') return new THREE.BoxGeometry(0.62,0.62,0.62);
+      if(shape==='orbit') return new THREE.TorusGeometry(0.4,0.1,8,24);
+      if(shape==='blueprint') return new THREE.OctahedronGeometry(0.44,0);
+      if(shape==='grid') return new THREE.IcosahedronGeometry(0.4,0);
+      return new THREE.IcosahedronGeometry(0.42, 1);
+    }
 
     var nodes=[];
     projects.forEach(function(p){
-      var geo=new THREE.IcosahedronGeometry(0.42, 1);
+      var geo=makeGeometry(p.shape);
       var mat=new THREE.MeshBasicMaterial({color:p.color, wireframe:true, transparent:true, opacity:.9});
       var mesh=new THREE.Mesh(geo,mat);
       mesh.position.set(p.pos[0],p.pos[1],p.pos[2]);
