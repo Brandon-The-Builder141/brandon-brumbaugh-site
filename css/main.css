@@ -261,6 +261,10 @@ a{color:inherit;}
 
 .pcard p{font-size:.82rem;}
 
+.status-pill{
+  display:inline-block;font-family:var(--font-mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;
+  padding:.22rem .6rem;border-radius:999px;
+}
 .status-pill.active{background:rgba(109,184,255,.14);color:var(--blue);}
 
 .status-pill.building{background:rgba(231,165,82,.14);color:var(--amber);}
@@ -558,3 +562,96 @@ body.build-mode #hero,body.build-mode .constellation-wrap,body.build-mode #journ
 body.webgl-fallback #hero{background:radial-gradient(120% 90% at 50% 20%, rgba(109,184,255,.14), rgba(231,165,82,.08) 45%, var(--bg) 80%);}
 body.webgl-fallback .constellation-wrap{background:radial-gradient(circle at 50% 30%, #181b1f, #0b0c0e 75%);}
 body.webgl-fallback #const-canvas,body.webgl-fallback #hero-canvas{display:none;}
+
+/* BUTTON RESETS for card-as-button (now-card, pcard) */
+.now-card,.pcard{
+  font:inherit;text-align:left;cursor:pointer;
+}
+.now-card:focus-visible,.pcard:focus-visible,.wfilter:focus-visible,.reason:focus-visible,
+.nav-icon-btn:focus-visible,.nav-cmd:focus-visible,#rabbit-hole-fab:focus-visible,
+.btn:focus-visible,.chip:focus-visible{
+  outline:2px solid var(--blue);outline-offset:2px;
+}
+
+/* Desktop project-grid: a compact, always-present, keyboard-accessible pill
+   row under the constellation canvas — the equivalent of clicking a node,
+   reachable without a mouse or WebGL. */
+.project-grid{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.4rem;}
+.pcard{
+  background:var(--surface);border:1px solid var(--line);border-radius:999px;
+  padding:.55rem 1.1rem;display:inline-flex;align-items:center;gap:.5rem;
+  font-family:var(--font-mono);font-size:.72rem;color:var(--text-dim);
+  transition:border-color .2s,color .2s,transform .2s;
+}
+.pcard:hover,.pcard:focus-visible{border-color:var(--blue);color:var(--blue);transform:translateY(-2px);}
+.pcard .status-pill,.pcard .cat,.pcard p{display:none;}
+.pcard h4{font-size:.72rem;margin:0;font-family:var(--font-mono);font-weight:500;color:inherit;}
+
+/* podcast "coming soon" state — deliberate, not a dead link */
+.chip-soon{
+  cursor:default;opacity:.65;
+}
+.chip-soon:hover{color:var(--text-dim);border-color:var(--line);}
+
+/* CONTACT FORM */
+.hp-field{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
+.contact-status{margin-top:.9rem;font-family:var(--font-mono);font-size:.78rem;min-height:1.1em;}
+.contact-status.pending{color:var(--text-dim);}
+.contact-status.success{color:var(--blue);}
+.contact-status.error{color:var(--amber);}
+.contact-fallback{margin-top:.7rem;font-size:.78rem;color:var(--text-faint);}
+.contact-fallback a{color:var(--blue);text-decoration:underline;}
+.btn:disabled{opacity:.6;cursor:default;transform:none;}
+
+/* PROJECT OVERLAY */
+body.overlay-open{overflow:hidden;}
+#project-overlay{position:fixed;inset:0;z-index:250;display:none;}
+#project-overlay.open{display:block;}
+.po-backdrop{
+  position:absolute;inset:0;background:rgba(6,7,8,.82);backdrop-filter:blur(8px);
+  opacity:0;transition:opacity .5s ease;
+}
+#project-overlay.open .po-backdrop{opacity:1;}
+.po-panel{
+  position:absolute;inset:0;overflow-y:auto;padding:6rem 2rem 4rem;
+  display:flex;justify-content:center;
+  opacity:0;transform:translateY(24px);transition:opacity .5s ease,transform .5s ease;
+}
+#project-overlay.open .po-panel{opacity:1;transform:translateY(0);}
+@media(prefers-reduced-motion:reduce){
+  .po-backdrop,.po-panel{transition:opacity .25s ease;transform:none!important;}
+}
+.po-close{
+  position:fixed;top:1.2rem;left:1.2rem;z-index:2;
+  font-family:var(--font-mono);font-size:.75rem;letter-spacing:.04em;
+  background:var(--surface);border:1px solid var(--line);border-radius:999px;
+  padding:.6rem 1.1rem;color:var(--text-dim);cursor:pointer;
+}
+.po-close:hover,.po-close:focus-visible{border-color:var(--blue);color:var(--blue);}
+.po-content{max-width:680px;width:100%;}
+.po-eyebrow{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem;font-family:var(--font-mono);font-size:.72rem;color:var(--text-faint);letter-spacing:.08em;text-transform:uppercase;}
+.po-content h2{font-size:clamp(2rem,5vw,3.2rem);margin-bottom:.6rem;}
+.po-tagline{font-family:var(--font-display);font-style:italic;font-size:1.15rem;color:var(--text);margin-bottom:2.2rem;}
+.po-section{margin-bottom:1.8rem;padding-bottom:1.8rem;border-bottom:1px solid var(--line);}
+.po-section:last-of-type{border-bottom:none;}
+.po-section h3{
+  font-family:var(--font-mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text-faint);margin-bottom:.6rem;
+}
+.po-section p{font-size:.98rem;color:var(--text-dim);line-height:1.65;}
+.po-tags{display:flex;flex-wrap:wrap;gap:.5rem;}
+.po-back-btn{margin-top:1rem;}
+
+/* tier-specific environments */
+.po-tier-signature .po-backdrop{background:radial-gradient(120% 100% at var(--gx,30%) var(--gy,20%), rgba(109,184,255,.18), rgba(6,7,8,.9) 60%);transition:background .6s ease,opacity .5s ease;}
+.po-solen .po-content h2{color:var(--blue);}
+.po-tier-strong.po-iron-legion .po-backdrop{
+  background:
+    repeating-linear-gradient(0deg, rgba(231,165,82,.05) 0 1px, transparent 1px 48px),
+    repeating-linear-gradient(90deg, rgba(231,165,82,.05) 0 1px, transparent 1px 48px),
+    rgba(6,7,8,.92);
+}
+.po-iron-legion .po-content h2{color:var(--amber);}
+.po-tier-strong.po-long-way-around .po-backdrop{background:radial-gradient(140% 90% at 50% 0%, rgba(231,165,82,.1), rgba(6,7,8,.9) 65%);}
+
+.build-fps{position:fixed;top:5rem;right:1.2rem;z-index:150;pointer-events:none;}

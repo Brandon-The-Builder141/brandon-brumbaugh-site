@@ -37,5 +37,7 @@ export const PROFILE = {
     'Help the next person. Success has more value when it lets someone else move forward too.'
   ],
   emergingDirection: 'Brandon’s also been exploring speaking and content around these ideas — for people who feel stuck, alone, or convinced their past mistakes define what’s next. Not as an established speaker with a stage résumé, just someone who keeps coming back to one idea: it isn’t only about where you’ve been, it’s about where you’re going next.',
-  footerTagline: 'Some of it’s wood and steel. Some of it’s code. Still building.'
+  footerTagline: 'Some of it’s wood and steel. Some of it’s code. Still building.',
+  contactEmail: 'bbrumbaugh13@gmail.com',
+  siteUrl: 'https://brandon-brumbaugh-site-production.up.railway.app'
 };

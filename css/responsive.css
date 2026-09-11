@@ -10,8 +10,6 @@
 
 @media(max-width:760px){.constellation-wrap{display:none;}}
 
-@media(min-width:761px){.project-grid{display:none;}}
-
 @media(max-width:520px){.project-grid{grid-template-columns:1fr;}}
 
 @media(max-width:600px){.journey-path{padding-left:1.2rem;}}
@@ -39,9 +37,21 @@
     overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:.5rem;gap:.9rem;
     -webkit-overflow-scrolling:touch;
   }
-  .project-grid .pcard{scroll-snap-align:start;}
+  /* Mobile has no 3D canvas, so the project cards are the primary way to
+     browse — restore the full descriptive card look (desktop keeps them as
+     a compact keyboard-accessible pill row instead, see main.css). */
+  .project-grid .pcard{
+    scroll-snap-align:start;display:block;width:100%;border-radius:14px;padding:1.3rem;
+    font-family:var(--font-body);white-space:normal;
+  }
+  .project-grid .pcard .status-pill,
+  .project-grid .pcard .cat,
+  .project-grid .pcard p{display:block;}
+  .project-grid .pcard h4{font-family:var(--font-display);font-size:1.05rem;font-weight:600;margin-bottom:.3rem;}
   .nav-pill{gap:.9rem;padding:.5rem .8rem;}
   .nav-cmd{display:none;}
   body{padding-bottom:4.2rem;}
   .build-annotation{max-width:200px;font-size:.6rem;padding:.55rem .7rem;}
+  .po-panel{padding:1.6rem 1.2rem;}
+  .po-content{max-width:100%;}
 }

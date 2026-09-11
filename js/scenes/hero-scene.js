@@ -100,7 +100,7 @@ export function initHero() {
       group.position.y = Math.sin(t * 0.4) * 0.08;
       uniforms.uPointer.value = [mouseX, mouseY];
 
-      const sc = window.scrollY / window.innerHeight;
+      const sc = window.scrollY / (window.innerHeight * 1.6);
       const morph = Math.min(Math.max(sc, 0), 1);
       uniforms.uMorph.value = morph;
       camera.position.z = 7 + morph * 1.5;
@@ -124,7 +124,9 @@ export function initHero() {
       return makeSceneReport('Hero World', {
         geometry: 'IcosahedronGeometry (subdivision ' + detail + ')',
         vertices: geo.attributes.position.count,
-        shader: 'custom GLSL: hero-shaders.js (simplex-noise morph, fresnel glow)',
+        shader: 'custom GLSL: hero-shaders.js (4-stage scroll morph: blueprint → structural → data → organic)',
+        drawCalls: renderer.info.render.calls,
+        geometries: renderer.info.memory.geometries,
         bloom: !!composer,
         wireframe: wireframeOn
       });

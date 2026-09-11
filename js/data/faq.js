@@ -104,7 +104,7 @@ function buildEntries() {
       aliases: ['what is ' + p.name.toLowerCase(), p.name.toLowerCase()],
       keywords: [p.name.toLowerCase(), ...p.keywords],
       answer: p.name + ' (' + p.category + ', ' + p.statusLabel + '): ' + p.longDesc,
-      linkTo: p.anchor,
+      linkTo: '#project=' + p.id,
       projectId: p.id
     });
   });

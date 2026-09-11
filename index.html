@@ -1,4 +1,24 @@
-<title>Brandon Brumbaugh</title>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brandon Brumbaugh — Builder, Creator, Entrepreneur</title>
+<meta name="description" content="Brandon Brumbaugh builds things in wood, steel, and code — Iron Legion Contracting LLC, the AI companion Solen, and everything in between. Explore the workshop.">
+<meta name="theme-color" content="#0b0c0e">
+<link rel="canonical" href="https://brandon-brumbaugh-site-production.up.railway.app/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0c0e'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='28' font-weight='700' fill='%23e7a552' text-anchor='middle'%3EBB%3C/text%3E%3C/svg%3E">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Brandon Brumbaugh">
+<meta property="og:title" content="Brandon Brumbaugh — Builder, Creator, Entrepreneur">
+<meta property="og:description" content="I build things. Some are made from wood and steel. Some are made from code. Explore Iron Legion Contracting LLC, Solen, and the rest of the workshop.">
+<meta property="og:url" content="https://brandon-brumbaugh-site-production.up.railway.app/">
+<!-- No profile/social-card image exists yet. Add og:image and twitter:image here once a real asset is available — do not reference a placeholder. -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Brandon Brumbaugh — Builder, Creator, Entrepreneur">
+<meta name="twitter:description" content="I build things. Some are made from wood and steel. Some are made from code.">
+
 <link rel="stylesheet" href="css/main.css">
 <link rel="stylesheet" href="css/responsive.css">
 
@@ -12,6 +32,8 @@
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body>
 
 <nav id="nav">
   <div class="nav-pill">
@@ -52,27 +74,13 @@
   <div class="profile-grid reveal">
     <div>
       <div class="profile-photo">BB</div>
-      <div class="profile-tags">
-        <span class="tag">📍 On site &amp; online</span>
-        <span class="tag">Construction &amp; Project Management</span>
-        <span class="tag">Builder</span>
-        <span class="tag">AI / Software Experimenter</span>
-      </div>
+      <div class="profile-tags" id="profile-tags"></div>
     </div>
     <div>
       <div class="eyebrow"><span class="dot"></span>PROFILE</div>
       <h2 style="margin-top:.8rem;font-size:2rem;">Brandon Brumbaugh</h2>
-      <p style="margin-top:.6rem;max-width:520px;">I build things. Some are made from wood, steel, and concrete. Some are made from code, models, and ideas. Still figuring out where all of it goes — that's kind of the point.</p>
-      <div class="profile-fields">
-        <div class="field"><label>Currently building</label><div>Solen</div></div>
-        <div class="field accent"><label>Current big experiment</label><div>Teaching Solen to actually hold context on a person</div></div>
-        <div class="field"><label>Currently creating</label><div>The Long Way Around</div></div>
-        <div class="field"><label>Day job / craft</label><div>Construction &amp; project management</div></div>
-        <div class="field"><label>Company</label><div>Iron Legion Contracting LLC</div></div>
-        <div class="field"><label>Rabbit hole this week</label><div>Whatever broke my brain most recently — updates when it happens</div></div>
-        <div class="field"><label>Current thought</label><div>Your past explains you. It doesn't own you.</div></div>
-        <div class="field"><label>Last updated</label><div style="font-family:var(--font-mono);font-size:.85rem;">Sept 2026</div></div>
-      </div>
+      <p id="profile-bio" style="margin-top:.6rem;max-width:520px;"></p>
+      <div class="profile-fields" id="profile-fields"></div>
       <p style="margin-top:1.2rem;font-family:var(--font-mono);font-size:.8rem;color:var(--text-faint);">Current number of ideas: unreasonable.</p>
     </div>
   </div>
@@ -83,11 +91,7 @@
     <div class="eyebrow"><span class="dot"></span>RIGHT NOW</div>
     <h2>The current chapter, in three parts</h2>
   </div>
-  <div class="now-grid reveal">
-    <div class="now-card build"><div class="glow"></div><div class="now-kicker">Building</div><h3>Solen</h3><p>An AI companion, not another chatbot — built around conversation, personality, persistent memory, planning, and reducing mental load.</p></div>
-    <div class="now-card create"><div class="glow"></div><div class="now-kicker">Creating</div><h3>The Long Way Around</h3><p>A podcast and media project that wanders through life, mistakes, ideas, and technology — and usually finds its way back to the point.</p></div>
-    <div class="now-card work"><div class="glow"></div><div class="now-kicker">Working</div><h3>Iron Legion Contracting LLC</h3><p>Residential and commercial construction, remodeling, estimating, and the hands-on problem-solving that comes with all of it.</p></div>
-  </div>
+  <div class="now-grid reveal" id="now-grid"></div>
 </section>
 
 <section class="section" id="constellation">
@@ -116,42 +120,7 @@
     <p>Life rarely moves in a perfectly straight line. Sometimes you reach the point by taking the long way around. Here's the path, curves included — still being written.</p>
   </div>
   <div class="journey-path">
-    <div class="milestone reveal">
-      <div class="year">CHAPTER ONE</div>
-      <h3>Building with my hands</h3>
-      <p>Before any of this had a name, there was a job site, a set of tools, and a willingness to figure things out by doing them wrong first. That's where the instinct to build actually started.</p>
-      <div class="lesson">Lesson: craftsmanship is just repeated honesty about your own mistakes.</div>
-    </div>
-    <div class="milestone reveal">
-      <div class="year">CHAPTER TWO</div>
-      <h3>Starting to build with code</h3>
-      <p>Curiosity about software, AI, and everything adjacent to it turned into late nights teaching myself to build. The same instincts from the job site — measure twice, ship once — carried straight over.</p>
-      <div class="lesson">Lesson: the tools change. The discipline doesn't.</div>
-    </div>
-    <div class="milestone reveal">
-      <div class="year">CHAPTER THREE</div>
-      <h3>Too many ideas</h3>
-      <p>Once the door to building digital things opened, it didn't stay open a crack. AI companions, estimating software, security experiments, a game, a podcast — more ideas than any one person can chase at once.</p>
-      <div class="lesson">Lesson: ideas deserve to be tested, not worshiped.</div>
-    </div>
-    <div class="milestone reveal">
-      <div class="year">CHAPTER FOUR</div>
-      <h3>Learning to ship</h3>
-      <p>Running Iron Legion Contracting LLC while experimenting in software meant learning the difference between an idea and a finished thing — and getting more comfortable putting unfinished work in front of people.</p>
-      <div class="lesson">Lesson: build before you brag.</div>
-    </div>
-    <div class="milestone reveal">
-      <div class="year">CHAPTER FIVE</div>
-      <h3>Building something that matters</h3>
-      <p>Solen, The Long Way Around, and the rest of what's in the workshop are the current attempt to turn the habit of building into something that genuinely helps someone else move forward.</p>
-      <div class="lesson">Lesson: success has more value when it lets someone else move forward too.</div>
-    </div>
-    <div class="milestone reveal">
-      <div class="year">NEXT CHAPTER</div>
-      <h3>Still being written</h3>
-      <p>This isn't a retrospective. It's a live record of whatever gets built next — in wood and steel, or in code.</p>
-      <div class="lesson">Lesson: you don't need the entire road. You need the next step.</div>
-    </div>
+    <div id="journey-milestones"></div>
   </div>
 </section>
 
@@ -182,9 +151,9 @@
       <h3 style="font-size:1.6rem;margin-top:.7rem;">A conversation that takes the long way around</h3>
       <p style="margin-top:.7rem;">Not another generic motivational podcast. The format moves through life, humor, mistakes, ideas, technology, and rabbit holes that seem disconnected — until they connect back to a bigger point. Sometimes you reach the point by taking the long way around.</p>
       <div class="media-links">
-        <a class="chip" href="#">▶ YouTube</a>
-        <a class="chip" href="#">Spotify</a>
-        <a class="chip" href="#">Apple Podcasts</a>
+        <span class="chip chip-soon" title="Not yet available">▶ YouTube — Coming Soon</span>
+        <span class="chip chip-soon" title="Not yet available">Spotify — Coming Soon</span>
+        <span class="chip chip-soon" title="Not yet available">Apple Podcasts — Coming Soon</span>
       </div>
       <p class="quote-strip">"It isn't only about where you've been. It's about where you're going next."</p>
     </div>
@@ -212,16 +181,10 @@
     <div class="eyebrow"><span class="dot"></span>WHAT I BELIEVE</div>
     <h2>Principles, not posters</h2>
   </div>
-  <div class="belief-list reveal">
-    <div class="belief"><span class="num">01</span><p>Your past is context, not destiny.</p></div>
-    <div class="belief"><span class="num">02</span><p>Build before you brag.</p></div>
-    <div class="belief"><span class="num">03</span><p>Keep moving — you don't need the entire road, just the next step.</p></div>
-    <div class="belief"><span class="num">04</span><p>Experiment. Ideas deserve to be tested, not worshiped.</p></div>
-    <div class="belief"><span class="num">05</span><p>Help the next person. Success has more value when it lets someone else move forward too.</p></div>
-  </div>
+  <div class="belief-list reveal" id="belief-list"></div>
   <div class="reveal" style="margin-top:3rem;max-width:640px;">
     <div class="eyebrow"><span class="dot"></span>AN EMERGING DIRECTION</div>
-    <p style="margin-top:.8rem;font-size:.98rem;">Brandon's also been exploring speaking and content around these ideas — for people who feel stuck, alone, or convinced their past mistakes define what's next. Not as an established speaker with a stage résumé, just someone who keeps coming back to one idea: it isn't only about where you've been, it's about where you're going next.</p>
+    <p id="emerging-direction" style="margin-top:.8rem;font-size:.98rem;"></p>
   </div>
 </section>
 
@@ -277,11 +240,18 @@
         <button class="reason">Something Weird</button>
       </div>
     </div>
-    <form>
-      <div class="form-field"><label>Name</label><input type="text" required></div>
-      <div class="form-field"><label>Email</label><input type="email" required></div>
-      <div class="form-field"><label>What's on your mind</label><textarea rows="4" required></textarea></div>
+    <form novalidate>
+      <div class="form-field"><label>Name</label><input type="text" name="name" required autocomplete="name"></div>
+      <div class="form-field"><label>Email</label><input type="email" name="email" required autocomplete="email"></div>
+      <div class="form-field"><label>What's on your mind</label><textarea name="message" rows="4" required></textarea></div>
+      <input type="hidden" id="contact-reason" value="Construction">
+      <div class="hp-field" aria-hidden="true">
+        <label for="contact-company">Company</label>
+        <input type="text" id="contact-company" name="company" tabindex="-1" autocomplete="off">
+      </div>
       <button class="btn btn-primary" type="submit">Send it</button>
+      <p id="contact-status" class="contact-status" role="status" aria-live="polite"></p>
+      <p class="contact-fallback">This opens your own email client with the message pre-filled — nothing is sent from this page directly. Prefer to write it yourself? Email <a href="mailto:bbrumbaugh13@gmail.com">bbrumbaugh13@gmail.com</a> directly.</p>
     </form>
   </div>
 </section>
@@ -302,3 +272,5 @@
 <button id="rabbit-hole-fab" title="Take me down a rabbit hole" aria-label="Take me down a rabbit hole">🐇</button>
 
 <script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -2,37 +2,35 @@ import { PROFILE } from './data/profile.js';
 import { detectWebGL, getQualityTier, onQualityChange, watchFrameHealth, REDUCED_MOTION } from './scenes/scene-utils.js';
 import { initReveal, initScrollSpy, initMobileNav } from './navigation.js';
 import {
-  renderWorkshopCards, renderProjectGrid, initWorkshopFilters,
-  initReasonChips, initContactForm, initHeroCycle
+  renderWorkshopCards, renderProjectGrid, renderProfile, renderRightNow,
+  renderJourney, renderBeliefs, validateCanonicalFacts,
+  initWorkshopFilters, initReasonChips, initContactForm, initHeroCycle
 } from './interactions.js';
 import { createAmbience } from './audio.js';
 import { initSystemMode } from './system-mode.js';
 import { initAskBrandon } from './ask-brandon.js';
-
-function renderProfileAndStory() {
-  // Profile fields, Right Now cards, journey chapters, and beliefs already
-  // exist as authored DOM in index.html; this just double-checks the numbers
-  // agree with data/profile.js so nothing can silently drift. Full dynamic
-  // re-render of hand-tuned layout markup is intentionally avoided here to
-  // keep the authored HTML structure/CSS pairing simple to review.
-  const heroWords = PROFILE.heroCycleWords;
-  initHeroCycle(heroWords, REDUCED_MOTION);
-}
+import { initProjectOverlay } from './project-overlay.js';
 
 async function boot() {
+  const ambience = createAmbience();
+  window.__ambience = ambience;
+
+  const overlay = initProjectOverlay({ ambience });
+
   renderWorkshopCards();
-  renderProjectGrid();
-  renderProfileAndStory();
+  renderProjectGrid(id => overlay.open(id));
+  renderProfile();
+  renderRightNow(id => overlay.open(id));
+  renderJourney();
+  renderBeliefs();
+  initHeroCycle(PROFILE.heroCycleWords, REDUCED_MOTION);
 
   initReveal();
-  initScrollSpy(sectionId => { if (window.__ambience) window.__ambience.setSectionTheme(sectionId); });
+  initScrollSpy(sectionId => { if (ambience.isRunning() && !overlay.isOpen()) ambience.setSectionTheme(sectionId); });
   initWorkshopFilters();
   initReasonChips();
   initContactForm();
   if (window.matchMedia('(max-width:760px)').matches) initMobileNav();
-
-  const ambience = createAmbience();
-  window.__ambience = ambience;
 
   const askBrandon = initAskBrandon();
 
@@ -44,25 +42,34 @@ async function boot() {
       scenes.hero = initHero();
     } catch (e) { console.warn('Hero scene failed to init:', e); }
 
-    try {
-      const { initConstellation } = await import('./scenes/project-constellation.js');
-      const hud = document.getElementById('node-hud');
-      const hudStatus = document.getElementById('hud-status');
-      const hudCat = document.getElementById('hud-cat');
-      const hudTitle = document.getElementById('hud-title');
-      const hudDesc = document.getElementById('hud-desc');
-      scenes.constellation = initConstellation({
-        onHover(p) {
-          hud.classList.add('show');
-          hudStatus.className = 'status-pill ' + p.status;
-          hudStatus.textContent = p.statusLabel;
-          hudCat.textContent = p.category;
-          hudTitle.textContent = p.name;
-          hudDesc.textContent = p.shortDesc;
-          if (ambience.isRunning() && p.id === 'solen') ambience.setSectionTheme('solen');
-        }
-      });
-    } catch (e) { console.warn('Constellation scene failed to init:', e); }
+    // No 3D canvas on mobile — .constellation-wrap is display:none there by
+    // design (see responsive.css), so starting a full WebGL context behind
+    // it would just burn battery/GPU on a scene nobody can see. The project
+    // card row is the whole mobile experience instead.
+    const isMobileViewport = window.matchMedia('(max-width:760px)').matches;
+    if (!isMobileViewport) {
+      try {
+        const { initConstellation } = await import('./scenes/project-constellation.js');
+        const hud = document.getElementById('node-hud');
+        const hudStatus = document.getElementById('hud-status');
+        const hudCat = document.getElementById('hud-cat');
+        const hudTitle = document.getElementById('hud-title');
+        const hudDesc = document.getElementById('hud-desc');
+        scenes.constellation = initConstellation({
+          onHover(p) {
+            hud.classList.add('show');
+            hudStatus.className = 'status-pill ' + p.status;
+            hudStatus.textContent = p.statusLabel;
+            hudCat.textContent = p.category;
+            hudTitle.textContent = p.name;
+            hudDesc.textContent = p.shortDesc;
+            if (ambience.isRunning() && p.id === 'solen') ambience.setSectionTheme('solen');
+          },
+          onSelect(id) { overlay.open(id); }
+        });
+        overlay.setConstellationApi(scenes.constellation);
+      } catch (e) { console.warn('Constellation scene failed to init:', e); }
+    }
 
     try {
       if (window.gsap && window.ScrollTrigger) {
@@ -82,7 +89,8 @@ async function boot() {
   const system = initSystemMode({
     scenes,
     ambience,
-    askBrandonOpen: () => askBrandon.open()
+    askBrandonOpen: () => askBrandon.open(),
+    projectOverlayOpen: id => overlay.open(id)
   });
 
   const askTrigger = document.getElementById('ask-brandon-trigger');
@@ -90,6 +98,9 @@ async function boot() {
 
   const fab = document.getElementById('rabbit-hole-fab');
   if (fab) fab.onclick = () => system.goRabbitHole();
+
+  overlay.checkHash();
+  validateCanonicalFacts();
 }
 
 boot();
