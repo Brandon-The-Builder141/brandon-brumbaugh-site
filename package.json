@@ -1,0 +1,12 @@
+{
+  "name": "brandon-brumbaugh-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Brandon Brumbaugh's personal website",
+  "scripts": {
+    "start": "serve -s . -l $PORT"
+  },
+  "dependencies": {
+    "serve": "^14.2.3"
+  }
+}
