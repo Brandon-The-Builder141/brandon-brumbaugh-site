@@ -286,8 +286,8 @@ function updateCounterDisplay(counts) {
   const el = document.getElementById('site-counters');
   if (!el || !counts) return;
   el.innerHTML =
-    '<span><span class="count-num">' + counts.visits + '</span> visits</span>' +
-    '<span><span class="count-num">' + counts.contacts + '</span> reached out to work together</span>';
+    '<span class="count-pill"><span class="count-num">' + counts.visits + '</span> visits</span>' +
+    '<span class="count-pill"><span class="count-num">' + counts.contacts + '</span> people reached out to work together</span>';
 }
 
 // Visits and "reached out" counts are real numbers from the server (see

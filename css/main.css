@@ -461,9 +461,15 @@ footer{
 }
 
 .site-counters{
-  display:flex;gap:1.1rem;font-variant-numeric:tabular-nums;
+  display:flex;gap:.9rem;flex-wrap:wrap;width:100%;order:99;
+  padding-top:1.4rem;margin-top:.4rem;border-top:1px dashed var(--line);
 }
-.site-counters .count-num{color:var(--text-dim);}
+.site-counters .count-pill{
+  display:inline-flex;align-items:baseline;gap:.4rem;
+  border:1px solid var(--line);border-radius:999px;padding:.4rem .9rem;
+  font-variant-numeric:tabular-nums;background:var(--surface);
+}
+.site-counters .count-num{color:var(--amber);font-size:.95rem;font-weight:600;}
 
 /* COMMAND PALETTE */
 #cmdk-overlay{
