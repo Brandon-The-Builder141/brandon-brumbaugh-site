@@ -162,11 +162,13 @@ function buildMailto(name, email, reason, message) {
   return 'mailto:' + to + '?subject=' + subject + '&body=' + body;
 }
 
-// There is no backend and no budget for a hosted form API for v1, so this is
-// an honest mailto fallback, not a fake "message sent" state: submitting
-// opens the visitor's own email client with everything pre-filled, and only
-// claims success once that actually happens. A honeypot field catches simple
-// bots without adding a CAPTCHA.
+// Submissions go straight to Formspree (https://formspree.io/f/mppzeake) via
+// a plain fetch — no dependency added, consistent with the rest of the site.
+// If that request fails for any reason (offline, Formspree outage), we fall
+// back to the honest mailto flow rather than claiming a fake "message sent."
+// A honeypot field catches simple bots without adding a CAPTCHA.
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mppzeake';
+
 export function initContactForm() {
   const form = document.querySelector('#connect form');
   if (!form) return;
@@ -180,7 +182,7 @@ export function initContactForm() {
     status.className = 'contact-status' + (kind ? ' ' + kind : '');
   }
 
-  form.addEventListener('submit', e => {
+  form.addEventListener('submit', async e => {
     e.preventDefault();
 
     const honeypot = form.querySelector('input[name="company"]');
@@ -198,21 +200,31 @@ export function initContactForm() {
     }
 
     btn.disabled = true;
-    btn.textContent = 'Opening your email client…';
-    setStatus('Opening your email client — nothing has been sent yet.', 'pending');
+    btn.textContent = 'Sending…';
+    setStatus('Sending your message…', 'pending');
 
-    const mailto = buildMailto(name, email, reason, message);
     try {
-      window.location.href = mailto;
-      setTimeout(() => {
-        btn.disabled = false;
-        btn.textContent = btnLabel;
-        setStatus('Your email client should now have a pre-filled message — hit send there to actually reach Brandon.', 'success');
-      }, 600);
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form)
+      });
+
+      if (res.ok) {
+        form.reset();
+        const reasonSel = document.querySelector('.reason.sel');
+        if (reasonSel) reasonSel.classList.remove('sel');
+        setStatus('Message sent — Brandon will get back to you.', 'success');
+      } else {
+        throw new Error('Formspree responded with ' + res.status);
+      }
     } catch (err) {
+      const mailto = buildMailto(name, email, reason, message);
+      window.location.href = mailto;
+      setStatus('Couldn’t send directly, so your email client should now have a pre-filled message — hit send there to reach Brandon.', 'error');
+    } finally {
       btn.disabled = false;
       btn.textContent = btnLabel;
-      setStatus('Couldn’t open an email client automatically. Email Brandon directly at ' + PROFILE.contactEmail + '.', 'error');
     }
   });
 }

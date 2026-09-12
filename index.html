@@ -38,6 +38,8 @@
 </head>
 <body>
 
+<a href="#hero" class="skip-link">Skip to content</a>
+
 <nav id="nav">
   <div class="nav-pill">
     <span class="nav-mark">BB</span>
@@ -57,7 +59,7 @@
   </div>
 </nav>
 
-<section id="hero">
+<section id="hero" tabindex="-1">
   <canvas id="hero-canvas"></canvas>
   <div class="hero-inner">
     <div class="eyebrow hero-status"><span class="dot"></span>CURRENT STATUS — BUILDING</div>
@@ -259,14 +261,15 @@
       <div class="form-field"><label>Name</label><input type="text" name="name" required autocomplete="name"></div>
       <div class="form-field"><label>Email</label><input type="email" name="email" required autocomplete="email"></div>
       <div class="form-field"><label>What's on your mind</label><textarea name="message" rows="4" required></textarea></div>
-      <input type="hidden" id="contact-reason" value="Construction">
+      <input type="hidden" id="contact-reason" name="reason" value="Construction">
+      <input type="hidden" name="_subject" value="New message from brandonbrumbaugh.com">
       <div class="hp-field" aria-hidden="true">
         <label for="contact-company">Company</label>
         <input type="text" id="contact-company" name="company" tabindex="-1" autocomplete="off">
       </div>
       <button class="btn btn-primary" type="submit">Send it</button>
       <p id="contact-status" class="contact-status" role="status" aria-live="polite"></p>
-      <p class="contact-fallback">This opens your own email client with the message pre-filled — nothing is sent from this page directly. Prefer to write it yourself? Email <a href="mailto:bbrumbaugh13@gmail.com">bbrumbaugh13@gmail.com</a> directly.</p>
+      <p class="contact-fallback">This sends directly to Brandon. Prefer to write it yourself? Email <a href="mailto:bbrumbaugh13@gmail.com">bbrumbaugh13@gmail.com</a> directly.</p>
     </form>
   </div>
 </section>

@@ -587,6 +587,21 @@ body.webgl-fallback #const-canvas,body.webgl-fallback #hero-canvas{display:none;
   outline:2px solid var(--blue);outline-offset:2px;
 }
 
+/* Skip link: off-screen until keyboard-focused, then drops into view above
+   the nav so keyboard/screen-reader users can bypass it entirely. */
+.skip-link{
+  position:fixed;top:-60px;left:1rem;z-index:1000;
+  background:var(--surface);color:var(--text);
+  border:1px solid var(--line);border-radius:8px;
+  padding:.7rem 1.1rem;font-family:var(--font-mono);font-size:.85rem;
+  text-decoration:none;transition:top .15s ease;
+}
+.skip-link:focus{
+  top:1rem;outline:2px solid var(--blue);outline-offset:2px;
+}
+
+#hero:focus{outline:none;}
+
 /* Desktop project-grid: a compact, always-present, keyboard-accessible pill
    row under the constellation canvas — the equivalent of clicking a node,
    reachable without a mouse or WebGL. */
