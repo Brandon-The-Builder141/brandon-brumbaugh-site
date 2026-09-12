@@ -359,11 +359,20 @@ a{color:inherit;}
 }
 
 .media-art{
-  aspect-ratio:16/10;border-radius:14px;
+  aspect-ratio:1/1;max-width:420px;margin:0 auto;border-radius:14px;
   background:linear-gradient(135deg, rgba(109,184,255,.16), rgba(231,165,82,.1)), var(--surface-2);
   display:flex;align-items:center;justify-content:center;border:1px solid var(--line);
   font-family:var(--font-mono);color:var(--text-faint);font-size:.75rem;letter-spacing:.1em;
+  position:relative;overflow:hidden;
 }
+.media-logo-video{width:100%;height:100%;object-fit:cover;display:block;}
+.media-sound-toggle{
+  position:absolute;right:.8rem;bottom:.8rem;width:38px;height:38px;border-radius:50%;
+  background:rgba(11,12,14,.7);backdrop-filter:blur(6px);border:1px solid var(--line);
+  color:var(--text);font-size:.95rem;cursor:pointer;transition:border-color .2s,color .2s;
+}
+.media-sound-toggle:hover,.media-sound-toggle:focus-visible{border-color:var(--blue);color:var(--blue);}
+@media(max-width:800px){.media-art{max-width:none;}}
 
 .media-links{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:1.2rem;}
 

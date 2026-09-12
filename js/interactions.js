@@ -217,6 +217,51 @@ export function initContactForm() {
   });
 }
 
+// The Long Way Around logo animation: autoplays muted/looped as a purely
+// decorative visual (never with sound on its own), pauses when scrolled
+// offscreen, and offers a real unmute control. Under prefers-reduced-motion
+// it never self-starts — it sits on its poster frame until the visitor
+// deliberately presses play, at which point it's their choice to have it
+// loop and to have sound.
+export function initMediaVideo(reduced) {
+  const video = document.getElementById('media-logo-video');
+  const toggle = document.getElementById('media-sound-toggle');
+  if (!video || !toggle) return;
+
+  function setToggleLabel() {
+    if (reduced && video.paused) {
+      toggle.textContent = '▶';
+      toggle.setAttribute('aria-label', 'Play animation');
+    } else {
+      toggle.textContent = video.muted ? '🔇' : '🔊';
+      toggle.setAttribute('aria-label', video.muted ? 'Turn sound on' : 'Turn sound off');
+    }
+    toggle.setAttribute('aria-pressed', String(!video.muted));
+  }
+
+  if (!reduced) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      });
+    }, { threshold: 0.2 });
+    io.observe(video);
+  }
+
+  toggle.addEventListener('click', () => {
+    if (reduced && video.paused) {
+      video.muted = false;
+      video.play().catch(() => {});
+    } else {
+      video.muted = !video.muted;
+    }
+    setToggleLabel();
+  });
+
+  setToggleLabel();
+}
+
 export function initHeroCycle(words, reduced) {
   const el = document.getElementById('hero-cycle');
   if (!el) return;

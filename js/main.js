@@ -4,7 +4,7 @@ import { initReveal, initScrollSpy, initMobileNav } from './navigation.js';
 import {
   renderWorkshopCards, renderProjectGrid, renderProfile, renderRightNow,
   renderJourney, renderBeliefs, validateCanonicalFacts,
-  initWorkshopFilters, initReasonChips, initContactForm, initHeroCycle
+  initWorkshopFilters, initReasonChips, initContactForm, initHeroCycle, initMediaVideo
 } from './interactions.js';
 import { createAmbience } from './audio.js';
 import { initSystemMode } from './system-mode.js';
@@ -24,6 +24,7 @@ async function boot() {
   renderJourney();
   renderBeliefs();
   initHeroCycle(PROFILE.heroCycleWords, REDUCED_MOTION);
+  initMediaVideo(REDUCED_MOTION);
 
   initReveal();
   initScrollSpy(sectionId => { if (ambience.isRunning() && !overlay.isOpen()) ambience.setSectionTheme(sectionId); });
