@@ -4,7 +4,8 @@ import { initReveal, initScrollSpy, initMobileNav } from './navigation.js';
 import {
   renderWorkshopCards, renderProjectGrid, renderProfile, renderRightNow,
   renderJourney, renderBeliefs, validateCanonicalFacts,
-  initWorkshopFilters, initReasonChips, initContactForm, initHeroCycle, initMediaVideo
+  initWorkshopFilters, initReasonChips, initContactForm, initHeroCycle, initMediaVideo,
+  initSiteCounters
 } from './interactions.js';
 import { createAmbience } from './audio.js';
 import { initSystemMode } from './system-mode.js';
@@ -31,6 +32,7 @@ async function boot() {
   initWorkshopFilters();
   initReasonChips();
   initContactForm();
+  initSiteCounters();
   if (window.matchMedia('(max-width:760px)').matches) initMobileNav();
 
   const askBrandon = initAskBrandon();

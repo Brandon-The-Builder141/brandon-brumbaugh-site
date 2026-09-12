@@ -460,6 +460,11 @@ footer{
   font-family:var(--font-mono);font-size:.72rem;color:var(--text-faint);max-width:1180px;margin:0 auto;flex-wrap:wrap;gap:1rem;
 }
 
+.site-counters{
+  display:flex;gap:1.1rem;font-variant-numeric:tabular-nums;
+}
+.site-counters .count-num{color:var(--text-dim);}
+
 /* COMMAND PALETTE */
 #cmdk-overlay{
   position:fixed;inset:0;background:rgba(8,9,10,.75);backdrop-filter:blur(6px);z-index:200;

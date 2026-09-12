@@ -215,6 +215,7 @@ export function initContactForm() {
         const reasonSel = document.querySelector('.reason.sel');
         if (reasonSel) reasonSel.classList.remove('sel');
         setStatus('Message sent — Brandon will get back to you.', 'success');
+        fetch('/api/track/contact', { method: 'POST' }).then(r => r.json()).then(updateCounterDisplay).catch(() => {});
       } else {
         throw new Error('Formspree responded with ' + res.status);
       }
@@ -279,6 +280,32 @@ export function initMediaVideo(reduced) {
   });
 
   setToggleLabel();
+}
+
+function updateCounterDisplay(counts) {
+  const el = document.getElementById('site-counters');
+  if (!el || !counts) return;
+  el.innerHTML =
+    '<span><span class="count-num">' + counts.visits + '</span> visits</span>' +
+    '<span><span class="count-num">' + counts.contacts + '</span> reached out to work together</span>';
+}
+
+// Visits and "reached out" counts are real numbers from the server (see
+// server.js), not a client-side estimate — one increment per browser
+// session (sessionStorage-guarded) rather than per page reload/hash change.
+export function initSiteCounters() {
+  const alreadyCounted = sessionStorage.getItem('bb-visit-counted');
+  const request = alreadyCounted
+    ? fetch('/api/stats')
+    : fetch('/api/track/visit', { method: 'POST' });
+
+  request
+    .then(r => r.json())
+    .then(counts => {
+      sessionStorage.setItem('bb-visit-counted', '1');
+      updateCounterDisplay(counts);
+    })
+    .catch(() => {});
 }
 
 export function initHeroCycle(words, reduced) {

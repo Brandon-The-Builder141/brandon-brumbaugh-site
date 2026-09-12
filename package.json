@@ -4,9 +4,9 @@
   "private": true,
   "description": "Brandon Brumbaugh's personal website",
   "scripts": {
-    "start": "serve -s . -l $PORT"
+    "start": "node server.js"
   },
   "dependencies": {
-    "serve": "^14.2.3"
+    "express": "^4.22.2"
   }
 }
