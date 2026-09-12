@@ -49,12 +49,58 @@ export function initProjectOverlay({ ambience } = {}) {
           <h3>What I'm Learning</h3>
           <p id="po-learning"></p>
         </div>
+        <div class="po-section" id="po-gallery-section" hidden>
+          <h3>Job Site Photos</h3>
+          <div class="po-gallery" id="po-gallery"></div>
+        </div>
 
         <button class="btn btn-ghost po-back-btn" data-close>← Back to the Constellation</button>
       </div>
     </div>
   `;
   document.body.appendChild(root);
+
+  const lightbox = document.createElement('div');
+  lightbox.id = 'po-lightbox';
+  lightbox.setAttribute('aria-hidden', 'true');
+  lightbox.innerHTML = `
+    <div class="po-lb-backdrop" data-lb-close></div>
+    <button class="po-lb-close" data-lb-close aria-label="Close photo">✕</button>
+    <button class="po-lb-nav po-lb-prev" data-lb-prev aria-label="Previous photo">←</button>
+    <img class="po-lb-img" alt="">
+    <button class="po-lb-nav po-lb-next" data-lb-next aria-label="Next photo">→</button>
+    <div class="po-lb-count"></div>
+  `;
+  document.body.appendChild(lightbox);
+  let galleryImages = [];
+  let lbIndex = 0;
+
+  function openLightbox(images, index) {
+    galleryImages = images;
+    lbIndex = index;
+    renderLightbox();
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden', 'false');
+  }
+  function renderLightbox() {
+    const img = lightbox.querySelector('.po-lb-img');
+    img.src = galleryImages[lbIndex];
+    img.alt = 'Iron Legion Contracting LLC — job site photo ' + (lbIndex + 1) + ' of ' + galleryImages.length;
+    lightbox.querySelector('.po-lb-count').textContent = (lbIndex + 1) + ' / ' + galleryImages.length;
+  }
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    lightbox.setAttribute('aria-hidden', 'true');
+  }
+  function lbStep(dir) {
+    lbIndex = (lbIndex + dir + galleryImages.length) % galleryImages.length;
+    renderLightbox();
+  }
+  lightbox.addEventListener('click', e => {
+    if (e.target.closest('[data-lb-close]')) closeLightbox();
+    if (e.target.closest('[data-lb-prev]')) lbStep(-1);
+    if (e.target.closest('[data-lb-next]')) lbStep(1);
+  });
 
   const backBtn = () => root.querySelectorAll('[data-close]');
 
@@ -72,6 +118,23 @@ export function initProjectOverlay({ ambience } = {}) {
     root.querySelector('#po-areas').innerHTML = p.coreAreas.map(a => `<span class="tag">${a}</span>`).join('');
     root.querySelector('#po-status-detail').textContent = p.currentStatusDetail;
     root.querySelector('#po-learning').textContent = p.learning;
+
+    const gallerySection = root.querySelector('#po-gallery-section');
+    const galleryEl = root.querySelector('#po-gallery');
+    if (p.gallery && p.gallery.length) {
+      gallerySection.hidden = false;
+      galleryEl.innerHTML = p.gallery.map((src, i) => `
+        <button type="button" class="po-gallery-thumb" data-idx="${i}" aria-label="View job site photo ${i + 1} of ${p.gallery.length}">
+          <img src="${src}" alt="" loading="lazy" decoding="async">
+        </button>
+      `).join('');
+      galleryEl.querySelectorAll('.po-gallery-thumb').forEach(btn => {
+        btn.addEventListener('click', () => openLightbox(p.gallery, Number(btn.dataset.idx)));
+      });
+    } else {
+      gallerySection.hidden = true;
+      galleryEl.innerHTML = '';
+    }
   }
 
   function open(id) {
@@ -104,6 +167,7 @@ export function initProjectOverlay({ ambience } = {}) {
 
   function close() {
     if (!currentId) return;
+    closeLightbox();
     root.classList.remove('open');
     root.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('overlay-open');
@@ -137,6 +201,12 @@ export function initProjectOverlay({ ambience } = {}) {
     if (e.touches[0]) updateSolenTilt(e.touches[0].clientX, e.touches[0].clientY);
   }, { passive: true });
   document.addEventListener('keydown', e => {
+    if (lightbox.classList.contains('open')) {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') lbStep(-1);
+      if (e.key === 'ArrowRight') lbStep(1);
+      return;
+    }
     if (e.key === 'Escape' && root.classList.contains('open')) close();
     if (e.key === 'Tab' && root.classList.contains('open')) trapFocus(e);
   });

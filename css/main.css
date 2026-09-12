@@ -655,3 +655,42 @@ body.overlay-open{overflow:hidden;}
 .po-tier-strong.po-long-way-around .po-backdrop{background:radial-gradient(140% 90% at 50% 0%, rgba(231,165,82,.1), rgba(6,7,8,.9) 65%);}
 
 .build-fps{position:fixed;top:5rem;right:1.2rem;z-index:150;pointer-events:none;}
+
+/* PROJECT OVERLAY — job site photo gallery */
+.po-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:.6rem;}
+.po-gallery-thumb{
+  aspect-ratio:1;border-radius:8px;overflow:hidden;border:1px solid var(--line);padding:0;
+  background:var(--surface-2);cursor:pointer;transition:border-color .2s,transform .2s;
+}
+.po-gallery-thumb:hover,.po-gallery-thumb:focus-visible{border-color:var(--amber);transform:scale(1.03);}
+.po-gallery-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+
+/* LIGHTBOX */
+#po-lightbox{
+  position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;
+  background:rgba(4,5,6,.94);
+}
+#po-lightbox.open{display:flex;}
+.po-lb-backdrop{position:absolute;inset:0;}
+.po-lb-img{max-width:min(90vw,1100px);max-height:82vh;object-fit:contain;position:relative;border-radius:6px;box-shadow:0 30px 80px rgba(0,0,0,.6);}
+.po-lb-close{
+  position:absolute;top:1.2rem;right:1.2rem;z-index:2;width:40px;height:40px;border-radius:50%;
+  background:var(--surface);border:1px solid var(--line);color:var(--text);cursor:pointer;font-size:1rem;
+}
+.po-lb-close:hover{border-color:var(--amber);color:var(--amber);}
+.po-lb-nav{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:48px;height:48px;border-radius:50%;
+  background:var(--surface);border:1px solid var(--line);color:var(--text);cursor:pointer;font-size:1.2rem;
+}
+.po-lb-nav:hover{border-color:var(--amber);color:var(--amber);}
+.po-lb-prev{left:1.2rem;}
+.po-lb-next{right:1.2rem;}
+.po-lb-count{
+  position:absolute;bottom:1.2rem;left:50%;transform:translateX(-50%);
+  font-family:var(--font-mono);font-size:.72rem;color:var(--text-faint);
+}
+@media(max-width:600px){
+  .po-lb-nav{width:40px;height:40px;font-size:1rem;}
+  .po-lb-prev{left:.5rem;}
+  .po-lb-next{right:.5rem;}
+}
