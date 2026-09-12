@@ -228,6 +228,13 @@ export function initMediaVideo(reduced) {
   const toggle = document.getElementById('media-sound-toggle');
   if (!video || !toggle) return;
 
+  // Relying on the HTML `muted` attribute alone isn't reliable enough —
+  // some browsers only honor the `muted` *property* set via script,
+  // especially for a video that gets (re)played programmatically. Force it
+  // explicitly rather than trusting the markup.
+  video.muted = true;
+  video.defaultMuted = true;
+
   function setToggleLabel() {
     if (reduced && video.paused) {
       toggle.textContent = '▶';

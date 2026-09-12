@@ -122,7 +122,11 @@ export function initProjectOverlay({ ambience } = {}) {
   const mediaWrap = root.querySelector('#po-media-wrap');
   const mediaVideo = root.querySelector('#po-media-video');
   const mediaToggle = root.querySelector('#po-media-sound-toggle');
-  let mediaMuted = true;
+  // Force the property explicitly — the HTML `muted` attribute alone isn't
+  // reliably honored once a video is (re)played programmatically in every
+  // browser, and this is a hard "never autoplay with sound" requirement.
+  mediaVideo.muted = true;
+  mediaVideo.defaultMuted = true;
 
   function updateMediaToggleLabel() {
     if (REDUCED_MOTION && mediaVideo.paused) {
@@ -141,7 +145,6 @@ export function initProjectOverlay({ ambience } = {}) {
     } else {
       mediaVideo.muted = !mediaVideo.muted;
     }
-    mediaMuted = mediaVideo.muted;
     updateMediaToggleLabel();
   });
 
@@ -157,7 +160,11 @@ export function initProjectOverlay({ ambience } = {}) {
       mediaWrap.hidden = false;
       mediaVideo.src = p.media.video;
       mediaVideo.poster = p.media.poster || '';
-      mediaVideo.muted = mediaMuted;
+      // Always re-mute on a fresh open — a visitor unmuting during one
+      // viewing must never cause a *later* opening (this session or a
+      // deep link) to silently autoplay with sound.
+      mediaVideo.muted = true;
+      mediaVideo.defaultMuted = true;
       mediaVideo.setAttribute('aria-label', p.name + ' — animated logo');
       if (!REDUCED_MOTION) mediaVideo.play().catch(() => {});
       updateMediaToggleLabel();
