@@ -697,12 +697,6 @@ body.overlay-open{overflow:hidden;}
 
 /* PROJECT OVERLAY — job site graph */
 .po-gallery-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.6rem;margin-bottom:.5rem;}
-.po-view-toggle{display:flex;gap:.4rem;}
-.po-view-btn{
-  font-family:var(--font-mono);font-size:.68rem;padding:.4rem .8rem;border-radius:999px;
-  border:1px solid var(--line);background:none;color:var(--text-dim);cursor:pointer;
-}
-.po-view-btn.sel,.po-view-btn:hover{border-color:var(--blue);color:var(--blue);}
 .po-graph-hint{font-size:.8rem;color:var(--text-faint);margin-bottom:1rem;}
 
 .site-graph{
@@ -736,29 +730,3 @@ body.overlay-open{overflow:hidden;}
 }
 .sg-photo:hover,.sg-photo:focus-visible{transform:translate(-50%,-50%) scale(1.25);border-color:var(--amber);z-index:2;}
 .sg-photo img{width:100%;height:100%;object-fit:cover;display:block;}
-
-/* SITE GRAPH — edit mode */
-.sg-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin-bottom:.8rem;}
-.sg-tool-btn{
-  font-family:var(--font-mono);font-size:.68rem;padding:.45rem .85rem;border-radius:999px;
-  border:1px solid var(--line);background:none;color:var(--text-dim);cursor:pointer;transition:.2s;
-}
-.sg-tool-btn:hover{border-color:var(--blue);color:var(--blue);}
-.sg-tool-btn.on{border-color:var(--amber);color:var(--amber);background:rgba(231,165,82,.1);}
-.sg-edit-hint{font-family:var(--font-mono);font-size:.68rem;color:var(--text-faint);}
-
-.sg-node.editable{cursor:grab;}
-.sg-node.editable:active,.sg-node.dragging{cursor:grabbing;}
-.sg-site.drop-target{border-color:var(--amber);box-shadow:0 0 0 3px rgba(231,165,82,.25);transform:translate(-50%,-50%) scale(1.08);}
-.sg-photo.dragging{opacity:.85;box-shadow:0 10px 24px rgba(0,0,0,.5);}
-
-.sg-export-panel{
-  margin-top:1rem;padding:1rem;background:var(--surface);border:1px solid var(--line);border-radius:12px;
-}
-.sg-export-panel p{font-size:.8rem;margin-bottom:.6rem;}
-.sg-export-panel textarea{
-  width:100%;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;
-  color:var(--text-dim);font-family:var(--font-mono);font-size:.72rem;padding:.7rem;resize:vertical;
-}
-.sg-export-actions{display:flex;align-items:center;gap:.8rem;margin-top:.6rem;}
-#sg-copy-status{font-family:var(--font-mono);font-size:.7rem;color:var(--blue);}

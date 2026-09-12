@@ -52,10 +52,6 @@ export function initProjectOverlay({ ambience } = {}) {
         <div class="po-section" id="po-gallery-section" hidden>
           <div class="po-gallery-head">
             <h3 id="po-gallery-heading">Job Site Photos</h3>
-            <div class="po-view-toggle" id="po-view-toggle" hidden>
-              <button type="button" class="po-view-btn sel" data-view="graph">Site Map</button>
-              <button type="button" class="po-view-btn" data-view="grid">Grid</button>
-            </div>
           </div>
           <p class="po-graph-hint" id="po-graph-hint" hidden>Each site below is a real property — click a site to see its photos, click a photo to open it full-size.</p>
           <div class="po-site-graph" id="po-site-graph" hidden></div>
@@ -130,12 +126,12 @@ export function initProjectOverlay({ ambience } = {}) {
     const gallerySection = root.querySelector('#po-gallery-section');
     const galleryEl = root.querySelector('#po-gallery');
     const graphEl = root.querySelector('#po-site-graph');
-    const toggleEl = root.querySelector('#po-view-toggle');
     const hintEl = root.querySelector('#po-graph-hint');
     graphEl.hidden = true;
     graphEl.innerHTML = '';
-    toggleEl.hidden = true;
     hintEl.hidden = true;
+    galleryEl.hidden = true;
+    galleryEl.innerHTML = '';
 
     function showGrid(images) {
       galleryEl.hidden = false;
@@ -152,26 +148,15 @@ export function initProjectOverlay({ ambience } = {}) {
     if (p.id === 'iron-legion') {
       gallerySection.hidden = false;
       root.querySelector('#po-gallery-heading').textContent = 'Job Site Map';
-      toggleEl.hidden = false;
       hintEl.hidden = false;
-      let allPhotos = [];
       import('./data/job-sites.js').then(({ JOB_SITES }) => {
-        allPhotos = JOB_SITES.flatMap(s => s.photos);
         import('./site-graph.js').then(({ initSiteGraph }) => {
           graphEl.hidden = false;
           initSiteGraph(graphEl, JOB_SITES, openLightbox);
-        }).catch(err => console.warn('Site graph failed to load, falling back to grid:', err) || showGrid(allPhotos));
-        showGrid(allPhotos);
-        galleryEl.hidden = true; // grid stays built underneath, just hidden until toggled
-      });
-      toggleEl.querySelectorAll('.po-view-btn').forEach(btn => {
-        btn.onclick = () => {
-          toggleEl.querySelectorAll('.po-view-btn').forEach(b => b.classList.remove('sel'));
-          btn.classList.add('sel');
-          const isGraph = btn.dataset.view === 'graph';
-          graphEl.hidden = !isGraph;
-          galleryEl.hidden = isGraph;
-        };
+        }).catch(err => {
+          console.warn('Site graph failed to load, falling back to grid:', err);
+          showGrid(JOB_SITES.flatMap(s => s.photos));
+        });
       });
     } else if (p.gallery && p.gallery.length) {
       gallerySection.hidden = false;

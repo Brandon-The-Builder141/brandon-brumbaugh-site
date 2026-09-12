@@ -1,12 +1,12 @@
 // Groups the Iron Legion Contracting LLC photo set (assets/images/iron-legion)
-// into distinct job sites, so the "job site graph" can connect each photo to
-// the property it was actually taken at instead of showing one flat pile.
+// into distinct job sites, so the job site graph connects each photo to the
+// property it was actually taken at instead of showing one flat pile.
 //
-// There's no EXIF/GPS/caption data on these photos (stripped by whatever app
-// they were exported from), so this grouping is a best-effort visual read —
-// same house siding, same fence, same yard features, a visible house number
-// in a couple of shots. It is NOT sourced from client records. If a grouping
-// is wrong, this is the one file to fix — nothing else needs to change.
+// There's no EXIF/GPS/caption data on these photos, so the initial grouping
+// was a best-effort visual read (same siding, same fence, same yard). Brandon
+// reviewed and confirmed this arrangement via the graph's drag-and-drop edit
+// mode — it's final. If it ever needs to change, this is the one file to
+// edit — nothing else needs to change.
 
 // Explicit filenames (extensions vary by source photo, so this is safer than
 // reconstructing them from a rule):
