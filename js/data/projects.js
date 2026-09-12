@@ -121,7 +121,11 @@ export const PROJECTS = [
     color: 0xe7a552,
     shape: 'orbit',
     anchor: '#constellation',
-    keywords: ['long way around', 'podcast', 'media', 'show', 'episodes', 'name meaning']
+    keywords: ['long way around', 'podcast', 'media', 'show', 'episodes', 'name meaning'],
+    media: {
+      video: 'assets/video/the-long-way-around-logo.mp4',
+      poster: 'assets/images/media/the-long-way-around-poster.png'
+    }
   },
   {
     id: 'alphaquote',

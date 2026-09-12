@@ -29,6 +29,11 @@ export function initProjectOverlay({ ambience } = {}) {
         <h2 id="po-title"></h2>
         <p class="po-tagline" id="po-tagline"></p>
 
+        <div class="po-media-wrap" id="po-media-wrap" hidden>
+          <video id="po-media-video" class="po-media-video" muted loop playsinline></video>
+          <button type="button" class="media-sound-toggle" id="po-media-sound-toggle" aria-pressed="false" aria-label="Turn sound on">🔇</button>
+        </div>
+
         <div class="po-section">
           <h3>Why</h3>
           <p id="po-why"></p>
@@ -110,6 +115,36 @@ export function initProjectOverlay({ ambience } = {}) {
 
   function setConstellationApi(api) { constellationApi = api; }
 
+  // Project media (currently just The Long Way Around's logo animation):
+  // same rules as the Media section's copy — autoplay muted/looped as a
+  // decorative visual only, never with sound on its own, and it never
+  // self-starts under prefers-reduced-motion.
+  const mediaWrap = root.querySelector('#po-media-wrap');
+  const mediaVideo = root.querySelector('#po-media-video');
+  const mediaToggle = root.querySelector('#po-media-sound-toggle');
+  let mediaMuted = true;
+
+  function updateMediaToggleLabel() {
+    if (REDUCED_MOTION && mediaVideo.paused) {
+      mediaToggle.textContent = '▶';
+      mediaToggle.setAttribute('aria-label', 'Play animation');
+    } else {
+      mediaToggle.textContent = mediaVideo.muted ? '🔇' : '🔊';
+      mediaToggle.setAttribute('aria-label', mediaVideo.muted ? 'Turn sound on' : 'Turn sound off');
+    }
+    mediaToggle.setAttribute('aria-pressed', String(!mediaVideo.muted));
+  }
+  mediaToggle.addEventListener('click', () => {
+    if (REDUCED_MOTION && mediaVideo.paused) {
+      mediaVideo.muted = false;
+      mediaVideo.play().catch(() => {});
+    } else {
+      mediaVideo.muted = !mediaVideo.muted;
+    }
+    mediaMuted = mediaVideo.muted;
+    updateMediaToggleLabel();
+  });
+
   function populate(p) {
     root.className = 'po-tier-' + p.tier + ' po-' + p.id;
     root.querySelector('#po-status').textContent = p.statusLabel;
@@ -117,6 +152,22 @@ export function initProjectOverlay({ ambience } = {}) {
     root.querySelector('#po-cat').textContent = p.category;
     root.querySelector('#po-title').textContent = p.name;
     root.querySelector('#po-tagline').textContent = p.tagline;
+
+    if (p.media && p.media.video) {
+      mediaWrap.hidden = false;
+      mediaVideo.src = p.media.video;
+      mediaVideo.poster = p.media.poster || '';
+      mediaVideo.muted = mediaMuted;
+      mediaVideo.setAttribute('aria-label', p.name + ' — animated logo');
+      if (!REDUCED_MOTION) mediaVideo.play().catch(() => {});
+      updateMediaToggleLabel();
+    } else {
+      mediaWrap.hidden = true;
+      mediaVideo.pause();
+      mediaVideo.removeAttribute('src');
+      mediaVideo.load();
+    }
+
     root.querySelector('#po-why').textContent = p.why;
     root.querySelector('#po-idea').textContent = p.idea;
     root.querySelector('#po-areas').innerHTML = p.coreAreas.map(a => `<span class="tag">${a}</span>`).join('');
@@ -199,6 +250,7 @@ export function initProjectOverlay({ ambience } = {}) {
   function close() {
     if (!currentId) return;
     closeLightbox();
+    mediaVideo.pause();
     root.classList.remove('open');
     root.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('overlay-open');
