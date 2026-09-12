@@ -156,6 +156,11 @@ a{color:inherit;}
 .profile-photo::after{
   content:'';position:absolute;inset:0;
   background:repeating-linear-gradient(115deg, transparent 0 8px, rgba(255,255,255,.02) 8px 9px);
+  pointer-events:none;
+}
+
+.profile-photo img{
+  width:100%;height:100%;object-fit:cover;position:relative;z-index:0;
 }
 
 .profile-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem;}
