@@ -225,6 +225,45 @@ export function initConstellation({ onHover, onSelect }) {
   let visible = true;
   const disposeVisibility = pauseWhenOffscreen(wrap, v => { visible = v; });
 
+  // Destination labels — one persistent, clickable HTML tag per node,
+  // billboarded to each mesh's projected screen position every frame. The
+  // same jump-to-project action as clicking the node itself or the pill row
+  // below, just directly on the orbiting object.
+  const labelsEl = document.createElement('div');
+  labelsEl.className = 'const-labels';
+  wrap.appendChild(labelsEl);
+  const labelEls = new Map();
+  nodes.forEach(n => {
+    const p = n.userData;
+    const el = document.createElement('button');
+    el.type = 'button';
+    el.className = 'const-label';
+    el.setAttribute('aria-label', 'Open ' + p.name);
+    el.innerHTML = `<span class="const-label-dot" style="background:#${p.color.toString(16).padStart(6, '0')}"></span>${p.name}`;
+    el.addEventListener('click', () => { if (onSelect) onSelect(p.id); });
+    labelsEl.appendChild(el);
+    labelEls.set(p.id, el);
+  });
+  const projectVec = new THREE.Vector3();
+  function updateLabels() {
+    const w = wrap.clientWidth, h = wrap.clientHeight;
+    nodes.forEach(n => {
+      const el = labelEls.get(n.userData.id);
+      if (!el) return;
+      projectVec.copy(n.position).project(camera);
+      const behind = projectVec.z > 1;
+      if (behind) { el.style.opacity = '0'; el.style.pointerEvents = 'none'; return; }
+      const x = (projectVec.x * 0.5 + 0.5) * w;
+      const y = (1 - (projectVec.y * 0.5 + 0.5)) * h + 34;
+      el.style.left = x + 'px';
+      el.style.top = y + 'px';
+      const isFocused = n.userData.id === focusedId;
+      const dim = focusT > 0.001 && !isFocused ? Math.max(0, 1 - focusT * 1.3) : 1;
+      el.style.opacity = String(dim);
+      el.style.pointerEvents = dim < 0.05 ? 'none' : 'auto';
+    });
+  }
+
   // ---------- Focus system (drives the Solen / Iron Legion signature
   // moments and the shared dim-and-dolly baseline for every other node) ----
   let focusedId = null;
@@ -334,6 +373,7 @@ export function initConstellation({ onHover, onSelect }) {
       }
     }
 
+    updateLabels();
     renderer.render(scene, camera);
   }
   animate();
@@ -361,6 +401,7 @@ export function initConstellation({ onHover, onSelect }) {
         stars: starCount,
         drawCalls: renderer.info.render.calls,
         geometries: renderer.info.memory.geometries,
+        destinationLabels: labelEls.size + ' (billboarded HTML, projected from mesh position each frame)',
         bloom: 'none (identity carried by per-project shaders instead — see Hero for the site\'s one bloom pass)',
         controls: 'THREE.OrbitControls (damped)'
       });
@@ -369,6 +410,7 @@ export function initConstellation({ onHover, onSelect }) {
       cancelAnimationFrame(raf);
       disposeVisibility();
       window.removeEventListener('resize', resize);
+      labelsEl.remove();
     }
   };
 }
